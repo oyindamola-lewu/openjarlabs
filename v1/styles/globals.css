@@ -1,26 +1,198 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    /* Color Tokens */
+    --color-primary: #000000; /* Main brand color */
+    --color-secondary: #FFFFFF; /* Complementary accent */
+    --color-tertiary: #FFE066; /* Supporting highlight */
+    --color-accent: #FFC8DD; /* Soft accent tone */
+    --color-background: #f9f9f9; /* Background */
+    --color-inverted: #111013; /* Dark contrast */
+
+    /* Semantic Aliases */
+    --background: var(--color-background);
+    --foreground: var(--color-primary);
+    --accent: var(--color-secondary);
+    --accent-secondary: var(--color-tertiary);
+    --highlight: var(--color-accent);
+
+    /* Glass System */
+    --glass-base: rgba(131, 165, 242, 0.1);
+    --glass-border: rgba(131, 165, 242, 0.18);
+    --glass-glow: rgba(242, 103, 73, 0.15);
+    --glass-heavy: rgba(131, 165, 242, 0.15);
+
+    /* Liquid States */
+    --liquid-inactive: rgba(32, 78, 207, 0.6);
+    --liquid-active: rgba(242, 103, 73, 0.8);
+    --liquid-glow: rgba(242, 103, 73, 0.4);
+    --liquid-alt: rgba(234, 152, 54, 0.7);
+
+    /* Spacing Scale */
+    --space-xs: 0.25rem;
+    --space-sm: 0.5rem;
+    --space-md: 1rem;
+    --space-lg: 1.5rem;
+    --space-xl: 2rem;
+    --space-2xl: 3rem;
+    --space-3xl: 4rem;
+
+    /* Animation Durations */
+    --duration-instant: 100ms;
+    --duration-fast: 200ms;
+    --duration-base: 300ms;
+    --duration-slow: 500ms;
+    --duration-dramatic: 800ms;
+
+    /* Animation Easings */
+    --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+    --ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    --ease-liquid: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    --ease-ripple: cubic-bezier(0.4, 0, 0.6, 1);
+
+    /* Backdrop Blur Values */
+    --blur-glass: 10px;
+    --blur-glass-heavy: 20px;
+    --blur-glass-light: 5px;
+  }
+
+  body {
+    background: var(--background);
+    color: var(--foreground);
+    font-family: Arial, Helvetica, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
+   
+  }
+
+  /* Selection color */
+  ::selection {
+    background-color: rgba(242, 103, 73, 0.3);
+    color: var(--color-primary);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer components {
+  /* Glass Component Primitives */
+  .glass {
+    background: var(--glass-base);
+    backdrop-filter: blur(var(--blur-glass)) saturate(180%);
+    -webkit-backdrop-filter: blur(var(--blur-glass)) saturate(180%);
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 8px 32px 0 rgba(32, 78, 207, 0.1);
+  }
+
+  .glass-heavy {
+    background: var(--glass-heavy);
+    backdrop-filter: blur(var(--blur-glass-heavy)) saturate(180%);
+    -webkit-backdrop-filter: blur(var(--blur-glass-heavy)) saturate(180%);
+  }
+
+  .glass-light {
+    backdrop-filter: blur(var(--blur-glass-light)) saturate(160%);
+    -webkit-backdrop-filter: blur(var(--blur-glass-light)) saturate(160%);
+  }
+  /* Firefox fallback */
+
+}
+
+@layer utilities {
+  /* Background utilities */
+  .bg-glass {
+    background: var(--glass-base);
+  }
+
+  .bg-glass-heavy {
+    background: var(--glass-heavy);
+  }
+
+  .bg-inverted {
+    background: var(--color-inverted);
+  }
+
+  /* Border utilities */
+  .border-glass {
+    border-color: var(--glass-border);
+  }
+
+  /* Liquid backgrounds */
+  .bg-liquid-inactive {
+    background: var(--liquid-inactive);
+  }
+
+  .bg-liquid-active {
+    background: var(--liquid-active);
+  }
+
+  .bg-liquid-alt {
+    background: var(--liquid-alt);
+  }
+
+  /* Custom transitions */
+  .transition-instant {
+    transition-duration: var(--duration-instant);
+  }
+
+  .transition-fast {
+    transition-duration: var(--duration-fast);
+  }
+
+  .transition-base {
+    transition-duration: var(--duration-base);
+  }
+
+  .transition-slow {
+    transition-duration: var(--duration-slow);
+  }
+
+  .transition-dramatic {
+    transition-duration: var(--duration-dramatic);
+  }
+
+  /* Easing functions */
+  .ease-smooth {
+    transition-timing-function: var(--ease-smooth);
+  }
+
+  .ease-liquid {
+    transition-timing-function: var(--ease-liquid);
+  }
+
+  .ease-bounce {
+    transition-timing-function: var(--ease-bounce);
+  }
+
+  .ease-ripple {
+    transition-timing-function: var(--ease-ripple);
+  }
+
+  /* Combined transition helpers */
+  .transition-smooth {
+    transition-duration: var(--duration-base);
+    transition-timing-function: var(--ease-smooth);
+  }
+
+  .transition-liquid-slow {
+    transition-duration: var(--duration-slow);
+    transition-timing-function: var(--ease-liquid);
+  }
+
+  /* Text color utilities */
+  .text-primary {
+    color: var(--color-primary);
+  }
+
+  .text-inverted {
+    color: var(--color-inverted);
+  }
+
+  .text-accent {
+    color: var(--color-secondary);
+  }
+
+  .text-accent-secondary {
+    color: var(--color-tertiary);
+  }
 }
